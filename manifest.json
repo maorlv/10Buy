@@ -17,7 +17,7 @@
 	
     "content_scripts": [
         {
-            "matches": ["*://moodle.technion.ac.il/"],
+            "matches": ["https://*.10buy.co.il/admin"],
 			"js": ["scripts/store_script.js"]
         },
         {
