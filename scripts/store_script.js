@@ -8,7 +8,6 @@ if (btn) {
         res["stores_info"].forEach((store) => {
             if (store["site_url"] == window.location.hostname) {
                 already_configured = true;
-                break; // no need to check others...
             }
         });
 

@@ -1,0 +1,55 @@
+body {
+	font-family: 'Segoe UI', arial;
+	font-size: 13px;
+    color: #0c0c0d;
+}
+
+#list_container {
+    margin: 5px;
+    border: 1px solid #737373;
+    background-color: #d7d7db;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.store, .error {
+    font-size: 15px;
+    width: 400px;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #4a4a4f;
+    border-radius: 5px;
+    background-color: #ededf0;
+    outline: none;
+    line-height: 24px;
+    color: #0c0c0d;
+}
+
+.error {
+    background-color: #a4000f;
+    color: #f9f9fa;
+    border-color: #3e0200;
+}
+
+.move_icon, .delete_icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.move_icon {
+    background-image: url(../icons/reorder.svg);
+    float: right;
+    margin-left: 5px;
+    cursor: move;
+}
+
+.delete_icon {
+    background-image: url(../icons/delete.svg);
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: 2px 2px;
+}
