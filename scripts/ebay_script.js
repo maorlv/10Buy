@@ -49,6 +49,9 @@ var template_func = function(tmp) {
 
     var start_button = document.getElementById("m_10buy_start_button");
     var contents = document.getElementById("m_10buy_wrapper").getElementsByClassName("si-content");
+    var confirm_button = document.getElementById("m_10buy_wrapper").querySelector("button");
+    var message_container = document.getElementById("m_10buy_message");
+    var edit_link = document.getElementById("m_10buy_edit_in_store").querySelector("a");
 
     // when the button is clicked, show the full form to the user
     start_button.addEventListener("click", ()=>{
@@ -73,7 +76,7 @@ var template_func = function(tmp) {
                     category_dropdown.removeChild(category_dropdown.firstChild);
                 }
                 
-                ElementCreate("option", "", {"value": "", "disabled": "true", "selected": "true"}, "בחר קטגוריה", category_dropdown);
+                ElementCreate("option", "", {"value": "none", "disabled": "true", "selected": "true"}, "בחר קטגוריה", category_dropdown);
 
                 var make_options = function(xhr) {
                     xhr.response.forEach((category)=>{
@@ -81,7 +84,12 @@ var template_func = function(tmp) {
                     });
                 };
 
-                easyXHR("https://" + url + "/api/category/list", "json", make_options, null, "token=" + token)
+                var options_error = function() {
+                    message_container.style.display = "block";
+                    message_container.textContent = "שגיאה בניסיון לייבא קטגוריות מהחנות.";
+                };
+
+                easyXHR("https://" + url + "/api/category/list", "json", make_options, options_error, "token=" + token)
             };
 
             // always load the first store at startup
@@ -100,10 +108,17 @@ var template_func = function(tmp) {
             });
 
             // send info to 10buy when clicking the "confirm" button
-            var confirm_button = document.getElementById("m_10buy_wrapper").querySelector("button");
-            var message_container = document.getElementById("m_10buy_message");
-            var edit_link = document.getElementById("m_10buy_edit_in_store").querySelector("a");
             confirm_button.addEventListener("click", ()=>{
+
+                // don't continue if the user didn't pick a category
+                if (category_dropdown.value == "none") {
+                    message_container.style.display = "block";
+                    message_container.textContent = "חובה לבחור קטגוריה.";
+
+                    return;
+                }
+
+                // disable the button so the user will not use it again before we get a response
                 confirm_button.disabled = true;
 
                 var message_func = function(xhr) {
@@ -113,12 +128,26 @@ var template_func = function(tmp) {
                     message_container.style.display = "block";
                     message_container.style.color = (xhr.response["success"]) ? "green" : "red";
                     document.getElementById("m_10buy_edit_in_store").style.display = (xhr.response["success"]) ? "block" : "none";
-                    edit_link.setAttribute("href", xhr.response["update_url"]);
+                    document.getElementById("m_10buy_error_message").style.display = (!xhr.response["success"]) ? "block" : "none";
+
+                    if (xhr.response["success"]) {
+                        edit_link.setAttribute("href", xhr.response["update_url"]);
+                    }
+                    else {
+                        document.getElementById("m_10buy_error_message").textContent = xhr.response["error"];
+                    }
                 };
 
                 var params = "token=" + res["stores_info"][store_dropdown.value]["token"] + "&category_id=" + category_dropdown.value + "&ebay_url=" + window.location.href;
                 var url = "https://" + res["stores_info"][store_dropdown.value]["site_url"] + "/api/product/fetch";
-                easyXHR(url, "json", message_func, null, params);
+
+                var fetch_error = function () {
+                    confirm_button.disabled = false;
+                    message_container.style.display = "block";
+                    message_container.textContent = "שגיאה בניסיון לתקשר עם החנות.";
+                };
+
+                easyXHR(url, "json", message_func, fetch_error, params);
             });
 
         });
