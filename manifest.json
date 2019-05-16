@@ -38,7 +38,7 @@
 		"notifications"
 	],
 
-	"web_accessible_resources": ["ebay.html"],
+	"web_accessible_resources": ["ebay.html", "icons/10BUYlogo.png"],
 
 	"minimum_chrome_version": "60.0"
 	

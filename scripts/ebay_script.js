@@ -44,7 +44,8 @@ var summary_panel = document.getElementById("RightSummaryPanel");
 
 var template_func = function(tmp) {
     // load template, parse to HTML and add it to the document
-    var template = new DOMParser().parseFromString(tmp.responseText, "text/html");
+    var final_tmp = tmp.responseText.replace(/\{\$logo_img\}/gi, chrome.extension.getURL("icons/10BUYlogo.png"));
+    var template = new DOMParser().parseFromString(final_tmp, "text/html");
     summary_panel.insertBefore(template.querySelector("div"), summary_panel.childNodes[0]);
 
     var start_button = document.getElementById("m_10buy_start_button");
