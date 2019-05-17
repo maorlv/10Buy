@@ -13,6 +13,11 @@
 		"48": "icons/48x48.png",
 		"128": "icons/128x128.png"
 	},
+
+	"background": {
+		"scripts": ["scripts/background.js"],
+		"persistent": false
+	},
 	
     "content_scripts": [
         {
@@ -27,7 +32,8 @@
 	],
 	
 	"options_ui": {
-		"page": "options.html"
+		"page": "options.html",
+		"open_in_tab": true
 	},
 	
 	"permissions": [
@@ -38,7 +44,7 @@
 		"notifications"
 	],
 
-	"web_accessible_resources": ["ebay.html", "icons/10BUYlogo.png"],
+	"web_accessible_resources": ["icons/10BUYlogo.png", "icons/preferences.svg"],
 
 	"minimum_chrome_version": "60.0"
 	

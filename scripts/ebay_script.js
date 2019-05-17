@@ -45,6 +45,8 @@ var summary_panel = document.getElementById("RightSummaryPanel");
 var template_func = function(tmp) {
     // load template, parse to HTML and add it to the document
     var final_tmp = tmp.responseText.replace(/\{\$logo_img\}/gi, chrome.extension.getURL("icons/10BUYlogo.png"));
+    final_tmp = final_tmp.replace(/\{\$pref_img\}/gi, chrome.extension.getURL("icons/preferences.svg"));
+
     var template = new DOMParser().parseFromString(final_tmp, "text/html");
     summary_panel.insertBefore(template.querySelector("div"), summary_panel.childNodes[0]);
 
@@ -70,6 +72,9 @@ var template_func = function(tmp) {
 
             var store_dropdown = document.getElementById("m_10buy_store_list");
             var category_dropdown = document.getElementById("m_10buy_categories");
+
+            // category options button
+            document.getElementById("m_10buy_options").addEventListener("click", () => chrome.runtime.sendMessage({"action": "openOptionsPage"}) );
 
             // to be used on form start-up and when the user changes to another store
             var load_categories = function (url, token) {

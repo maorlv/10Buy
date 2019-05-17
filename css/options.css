@@ -2,27 +2,54 @@ body {
 	font-family: 'Segoe UI', arial;
 	font-size: 13px;
     color: #0c0c0d;
+    width: 370px;
+    background-color: #ededf0;
+    padding: 5px;
+    margin: 0;
+}
+
+p {
+    margin-top: 0;
 }
 
 #list_container {
     margin: 5px;
-    border: 1px solid #737373;
-    background-color: #d7d7db;
-    display: inline-block;
-    border-radius: 5px;
+    /*border: 1px solid #737373;
+    background-color: #eee;
+    width: 410px;*/
+    border-radius: 2px;
+}
+
+#list_container.dragging .store:not(.active) {
+    opacity: 0.7;
+    margin-left: 10px;
+    transition: all 0.5s ease;
+    z-index: 0;
+    filter: grayscale(1);
 }
 
 .store, .error {
     font-size: 15px;
-    width: 400px;
     padding: 5px;
-    margin: 5px;
-    border: 1px solid #4a4a4f;
-    border-radius: 5px;
-    background-color: #ededf0;
+    margin: 1px;
+    border: 1px solid #fff;/*#4a4a4f;*/
+    border-radius: 3px;
+    background-color: #f9f9fa;
     outline: none;
     line-height: 24px;
     color: #0c0c0d;
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.12);
+    transition: border-color 0.5s ease, margin 0.3s ease;
+}
+
+.store.active {
+    background-color: #fff;
+    border-color: #a4000f;
+    border-width: 2px;
+    padding: 4px;
+    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+    z-index: 1;
 }
 
 .error {
@@ -35,13 +62,19 @@ body {
     width: 24px;
     height: 24px;
     display: block;
+    background-repeat: no-repeat;
 }
 
 .move_icon {
     background-image: url(../icons/reorder.svg);
     float: right;
-    margin-left: 5px;
+    margin-left: 10px;
     cursor: move;
+    /*border-left: 1px solid;
+    border-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3), transparent) 1;
+    background-position: 4px 0;
+    width: 29px;*/
+    opacity: 0.3;
 }
 
 .delete_icon {
@@ -50,6 +83,16 @@ body {
     margin-right: 5px;
     cursor: pointer;
     background-size: 20px 20px;
-    background-repeat: no-repeat;
     background-position: 2px 2px;
+    opacity: 0.7;
 }
+
+.delete_icon:hover {
+    opacity: 1;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+/*#list_container.dragging .delete_icon {
+    display: none;
+}*/
