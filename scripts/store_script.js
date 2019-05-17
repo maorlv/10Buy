@@ -1,3 +1,11 @@
+// make sure we're not overriding when saving
+function safeSave(info) {
+    chrome.storage.local.get({"stores_info": []}, (res)=>{
+        res["stores_info"].push(info);
+        chrome.storage.local.set({"stores_info": res["stores_info"]});
+    });
+}
+
 // get the button
 var btn = document.querySelector(".google-extension-connect");
 if (btn) {
@@ -20,9 +28,8 @@ if (btn) {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4)
                     if (xhr.status === 200) {
-                        // add the store to the current stores-list and then save the new list
-                        res["stores_info"].push(xhr.response);
-                        chrome.storage.local.set({"stores_info": res["stores_info"]});
+                        // add the store to the most-current stores-list and then save the new list
+                        safeSave(xhr.response);
 
                         // tell the user that the connection was successful
                         btn.querySelector(".btn").textContent = "חיבור בוצע בהצלחה";
