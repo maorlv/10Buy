@@ -15,8 +15,7 @@
 	},
 
 	"background": {
-		"scripts": ["scripts/background.js"],
-		"persistent": false
+		"scripts": ["scripts/background.js"]
 	},
 	
     "content_scripts": [
@@ -44,7 +43,7 @@
 		"notifications"
 	],
 
-	"web_accessible_resources": ["icons/10BUYlogo.png", "icons/preferences.svg"],
+	"web_accessible_resources": ["ebay.html", "icons/10BUYlogo.png", "icons/preferences.svg"],
 
 	"minimum_chrome_version": "60.0"
 	

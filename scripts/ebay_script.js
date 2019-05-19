@@ -85,6 +85,21 @@ var template_func = function(tmp) {
                 ElementCreate("option", "", {"value": "none", "disabled": "true", "selected": "true"}, "בחר קטגוריה", category_dropdown);
 
                 var make_options = function(xhr) {
+                    if (xhr.response.hasOwnProperty("api_error")){
+
+                        if (xhr.response["api_error"] == "Unauthorized"){
+                            message_container.style.display = "block";
+                            message_container.textContent = "הקישור בין החנות {$1} לבין התוסף בוטל על ידי המערכת.".replace("{$1}", url);
+
+                            chrome.storage.local.get({"stores_info": []}, (res2) => {
+                                var resave = res2["stores_info"].filter(store => store["site_url"] != url);
+                                chrome.storage.local.set({"stores_info": resave});
+                            });
+                        }
+
+                        return;
+                    }
+
                     xhr.response.forEach((category)=>{
                         ElementCreate("option", "", {"value": category["category_id"]}, category["title"], category_dropdown);
                     });
@@ -109,7 +124,11 @@ var template_func = function(tmp) {
 
             // when changing a store reload the categories
             store_dropdown.addEventListener("change", ()=>{
-                var selected_store = res["stores_info"][store_dropdown.value];
+                // all store are deleted
+                if (parseInt(store_dropdown.value) == -1)
+                    return;
+
+                var selected_store = res["stores_info"][parseInt(store_dropdown.value)];
                 load_categories(selected_store["site_url"], selected_store["token"]);
             });
 
