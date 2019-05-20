@@ -45,7 +45,13 @@
 
 	"web_accessible_resources": ["ebay.html", "icons/10BUYlogo.png", "icons/preferences.svg"],
 
-	"minimum_chrome_version": "60.0"
+	"minimum_chrome_version": "60.0",
+
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "contact@10buy.co.il"
+		}
+	}
 	
 }
 	
