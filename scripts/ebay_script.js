@@ -73,6 +73,17 @@ var template_func = function(tmp) {
             var store_dropdown = document.getElementById("m_10buy_store_list");
             var category_dropdown = document.getElementById("m_10buy_categories");
 
+            // auto-resized textarea for new product name
+            var product_name_textarea = document.getElementById("m_10buy_pname");
+            product_name_textarea.addEventListener("input", ()=>{
+                product_name_textarea.value = product_name_textarea.value.replace(/[\r\n\v]+/g, "");
+                product_name_textarea.style.height = "auto";
+                product_name_textarea.style.height = (product_name_textarea.scrollHeight) + "px";
+                product_name_textarea.nextElementSibling.textContent = (product_name_textarea.value != "") ? "(תווים שנותרו: {$1}/128)".replace("{$1}", 128-product_name_textarea.value.length) : "";
+            });
+            product_name_textarea.placeholder = document.title.replace(" | eBay", "");
+            product_name_textarea.style.height = (product_name_textarea.scrollHeight) + "px";
+
             // category options button
             document.getElementById("m_10buy_options").addEventListener("click", () => chrome.runtime.sendMessage({"action": "openOptionsPage"}) );
 
@@ -164,6 +175,8 @@ var template_func = function(tmp) {
                 };
 
                 var params = "token=" + res["stores_info"][store_dropdown.value]["token"] + "&category_id=" + category_dropdown.value + "&ebay_url=" + window.location.href;
+                params += "&product_title=" + encodeURIComponent(product_name_textarea.value);
+
                 var url = "https://" + res["stores_info"][store_dropdown.value]["site_url"] + "/api/product/fetch";
 
                 var fetch_error = function () {
